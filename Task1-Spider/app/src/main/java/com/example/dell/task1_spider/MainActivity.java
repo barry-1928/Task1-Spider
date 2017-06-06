@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null) {
+            arrayList = savedInstanceState.getStringArrayList("MyArrayList");
+            Log.d("Test",arrayList.get(0));
+        }
         setContentView(R.layout.activity_main);
         editText1 = (EditText) findViewById(R.id.edittext1);
         editText2 = (EditText) findViewById(R.id.edittext2);
@@ -64,5 +69,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent i = new Intent(this,ActivityB.class);
         i.putExtra("Access",arrayList.get(position));
         startActivity(i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("Test", "onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("MyArrayList",arrayList);
     }
 }
